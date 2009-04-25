@@ -114,8 +114,8 @@ module CampfireBot
     end
   
     def handle_message(message)
-      puts
-      puts message.inspect
+      # puts message.inspect
+      puts "#{Time.now} | #{message[:room].name} | #{message[:person]} | #{message[:message]}"
     
       Plugin.registered_commands.each { |handler| handler.run(message) }
       Plugin.registered_speakers.each { |handler| handler.run(message) }
