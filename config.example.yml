@@ -25,3 +25,5 @@ production:
   disable_plugins: 
     - xkcd
     - basecamp
+  svn_urls:
+    - http://your.svn/url/
