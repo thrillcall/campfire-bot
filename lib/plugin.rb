@@ -1,13 +1,13 @@
-module CampfireBot  
+module CampfireBot
   class Plugin
     @registered_plugins   = {}
-    
+
     @registered_commands  = []
     @registered_messages  = []
     @registered_speakers  = []
     @registered_intervals = []
     @registered_times     = []
-    
+
     class << self
       attr_reader :registered_plugins,
                   :registered_commands,
@@ -15,6 +15,8 @@ module CampfireBot
                   :registered_speakers,
                   :registered_intervals,
                   :registered_times
+
+      @@config_defaults = {}
 
       # Registering plugins
 
