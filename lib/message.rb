@@ -2,6 +2,9 @@ module CampfireBot
   class Message < Hash
     def initialize(attributes)
       self.merge!(attributes)
+      self[:message] = self['body']
+      self[:person] = self['user']['name']
+      self[:room] = attributes[:room]
     end
     
     def reply(str)

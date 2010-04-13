@@ -1,6 +1,6 @@
 # External Libs
 require 'rubygems'
-require 'activesupport'
+require 'active_support'
 require 'yaml'
 
 # Local Libs
@@ -8,7 +8,7 @@ require "#{BOT_ROOT}/lib/message"
 require "#{BOT_ROOT}/lib/event"
 require "#{BOT_ROOT}/lib/plugin"
 
-# requires http://github.com/bgreenlee/tinder/
+# requires http://github.com/bgreenlee/tinder to fix broken listen support
 gem 'tinder', '>= 1.3.1'; require 'tinder'
 
 module CampfireBot
@@ -40,7 +40,6 @@ module CampfireBot
         loop do
           begin
             @rooms.each_pair do |room_name, room|
-              #room.ping
               room.listen do |raw_msg|
                 handle_message(CampfireBot::Message.new(raw_msg.merge({:room => room})))
               end
@@ -89,10 +88,11 @@ module CampfireBot
       @rooms[guest_token]   = @campfire.find_room_by_guest_hash(guest_token, @config['nickname'])
       @rooms[guest_token].join
     end
-
+    
     def join_rooms_as_user
-      @campfire = Tinder::Campfire.new(@config['site'], :ssl => !!@config['use_ssl'], :username => @config['username'], :password => @config['password'])
+      @campfire = Tinder::Campfire.new(@config['site'], :ssl => !!@config['use_ssl'], :username => @config['api_key'], :password => @config['password'])
 
+      
       @config['rooms'].each do |room_name|
         @rooms[room_name] = @campfire.find_room_by_name(room_name)
         @rooms[room_name].join
@@ -123,29 +123,23 @@ module CampfireBot
         return
       end
 
-      # define some variables
-      user_obj = message['user']
-      room_obj = message['room']
-      user_name = user_obj['name']
-      room_name = room_obj.name
-      body = message['body']
-
       # only print non-bot messages
-      unless @config['fullname'] == user_name
-        puts "#{Time.now} | #{room_name} | #{user_name} | #{body}"
+      unless @config['fullname'] == message[:user]
+        puts "#{Time.now} | #{message[:room].name} | #{message[:person]} | #{message[:message]}"
       end
 
-      %w(commands speakers messages).each {|type|
-        Plugin.send("registered_#{type}").each {|handler|
+      %w(commands speakers messages).each do |type|
+        Plugin.send("registered_#{type}").each do |handler|
           begin
             handler.run(message)
           rescue
             puts "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
               $!.backtrace
           end
-        }
-      }
+        end
+      end
     end
+
   end
 end
 

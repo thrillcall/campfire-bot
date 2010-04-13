@@ -10,10 +10,10 @@ h3. Download
 
 Download the source from "github":http://github.com/timriley/campfire-bot
  
-h3. Dependencies:
+h3. Gem Dependencies:
 
 * rubygems
-* timriley-tinder (http://github.com/timriley/tinder)
+* bgreenlee-tinder (http://github.com/bgreenlee/tinder)
 * hpricot
 * mime-types
 * activesupport 
@@ -37,3 +37,4 @@ h3. Contributors
 * Josh Wand - "github":http://github.com/joshwand
 * Hugh Evans - "github":http://github.com/artpop
 * Sean O'Dowd - "github":http://github.com/seanodowd
+* Andrew Erickson - "github":http://github.com/aerickson
