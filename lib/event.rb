@@ -55,7 +55,7 @@ module CampfireBot
       handles :messages
 
       def match?(msg)
-        msg[:user][:id] == @matcher
+        msg[:person] == @matcher
       end
     end
 
@@ -63,7 +63,7 @@ module CampfireBot
       handles :messages
 
       def match?(msg)
-        msg['body'] =~ @matcher
+        msg[:message] =~ @matcher
       end
     end
 

@@ -26,7 +26,7 @@ h2. Usage
 
 To run the bot, run @script/bot@ with the environment name as the argument:
 
-  script/bot.rb development
+  script/bot development
 
 h2. Authors
 
@@ -35,6 +35,7 @@ Tim Riley - "github":http://github.com/timriley | "www":http://openmonkey.com/ |
 h3. Contributors
 
 * Josh Wand - "github":http://github.com/joshwand
+* Marcel M. Cary - "github":http://github.com/mcary
 * Hugh Evans - "github":http://github.com/artpop
 * Sean O'Dowd - "github":http://github.com/seanodowd
 * Andrew Erickson - "github":http://github.com/aerickson
