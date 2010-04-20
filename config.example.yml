@@ -10,7 +10,7 @@ development:
   password: not_actually_needed
   twitter_feed: 'http://search.twitter.com/search.atom?q=from%3Atimriley+OR+from%3Ahughevans+OR+from%3Aschlick+OR+from%3Aseanodowd'
   twitter_hide_replies: false
-  disable_plugins: 
+  enable_plugins: 
     - xkcd
     - basecamp
 production:
@@ -23,7 +23,7 @@ production:
   password: password
   twitter_feed: 'http://search.twitter.com/search.atom?q=from%3Atimriley+OR+from%3Ahughevans+OR+from%3Aschlick+OR+from%3Aseanodowd'
   twitter_hide_replies: false
-  disable_plugins: 
+  enable_plugins: 
     - xkcd
     - basecamp
   svn_urls:

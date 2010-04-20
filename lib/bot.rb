@@ -100,11 +100,8 @@ module CampfireBot
     end
 
     def load_plugins
-      Dir["#{BOT_ROOT}/plugins/*.rb"].each do |x|
-        # skip disabled plugins
-        if @config['disable_plugins'].select{|name| x.include?(name)}.size == 0
-          load x
-        end
+      @config['enable_plugins'].each do |plugin_name|
+        load "#{BOT_ROOT}/plugins/#{plugin_name}.rb"
       end
 
       # And instantiate them
