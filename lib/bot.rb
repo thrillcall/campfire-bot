@@ -31,7 +31,7 @@ module CampfireBot
     end
 
     def connect
-      load_plugins
+      load_plugins unless !@config['enable_plugins']
       join_rooms
     end
 
