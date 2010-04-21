@@ -74,11 +74,7 @@ module CampfireBot
     private
 
     def join_rooms
-      if @config['guesturl']
-        join_rooms_as_guest
-      else
-        join_rooms_as_user
-      end
+      join_rooms_as_user
       puts "#{Time.now} | #{BOT_ENVIRONMENT} | Loader | Ready."
     end
 
