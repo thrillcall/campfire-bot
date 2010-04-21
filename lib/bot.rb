@@ -129,21 +129,24 @@ module CampfireBot
         return
       end
 
-      # only print non-bot messages
-      unless @config['fullname'] == message[:user]
+      # only process non-bot messages
+      unless @config['fullname'] == message[:person]
         puts "#{Time.now} | #{message[:room].name} | #{message[:person]} | #{message[:message]}"
-      end
-
-      %w(commands speakers messages).each do |type|
-        Plugin.send("registered_#{type}").each do |handler|
-          begin
-            handler.run(message)
-          rescue
-            puts "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
-              $!.backtrace
+        
+        %w(commands speakers messages).each do |type|
+          Plugin.send("registered_#{type}").each do |handler|
+            begin
+              handler.run(message)
+            rescue
+              puts "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
+                $!.backtrace
+            end
           end
         end
+        
       end
+
+      
     end
 
   end
