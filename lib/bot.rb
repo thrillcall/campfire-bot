@@ -2,13 +2,14 @@
 require 'rubygems'
 require 'active_support'
 require 'yaml'
+require 'eventmachine'
 
 # Local Libs
 require "#{BOT_ROOT}/lib/message"
 require "#{BOT_ROOT}/lib/event"
 require "#{BOT_ROOT}/lib/plugin"
 
-# requires http://github.com/bgreenlee/tinder to fix broken listen support
+# requires http://github.com/joshwand/tinder to fix broken listen support
 gem 'tinder', '>= 1.3.1'; require 'tinder'
 
 module CampfireBot
@@ -37,12 +38,24 @@ module CampfireBot
     def run(interval = 5)
       catch(:stop_listening) do
         trap('INT') { throw :stop_listening }
-        loop do
-          begin
-            @rooms.each_pair do |room_name, room|
+        
+        # since room#listen blocks, stick it in its own thread
+        @rooms.each_pair do |room_name, room|
+          Thread.new do
+            begin
               room.listen do |raw_msg|
                 handle_message(CampfireBot::Message.new(raw_msg.merge({:room => room})))
               end
+            rescue Exception => e 
+              trace = e.backtrace.join("\n")
+              puts "something went wrong! #{e.message}\n #{trace}"
+            end
+          end
+        end
+
+        loop do
+          begin
+            @rooms.each_pair do |room_name, room|
 
               # I assume if we reach here, all the network-related activity has occured successfully
               # and that we're outside of the retry-cycle
