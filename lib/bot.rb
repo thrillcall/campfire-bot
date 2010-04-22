@@ -110,7 +110,7 @@ module CampfireBot
 
     def join_rooms
       join_rooms_as_user
-      puts "#{Time.now} | #{BOT_ENVIRONMENT} | Loader | Ready."
+      puts "#{Time.now} | #{BOT_ENVIRONMENT} | CampfireBot | Joined all rooms."
     end
     
     def join_rooms_as_user
@@ -130,7 +130,7 @@ module CampfireBot
 
       # And instantiate them
       Plugin.registered_plugins.each_pair do |name, klass|
-        puts "#{Time.now} | #{BOT_ENVIRONMENT} | Loader | loading plugin: #{name}"
+        puts "#{Time.now} | #{BOT_ENVIRONMENT} | CampfireBot | loading plugin: #{name}"
         STDOUT.flush
         Plugin.registered_plugins[name] = klass.new
       end
@@ -139,31 +139,33 @@ module CampfireBot
     def handle_message(message)
       # puts message.inspect
 
-      if message['body'].nil?
-        puts "handling nil messsage 1 '#{message}'"
-        return
-      end
-
-      # only process non-bot messages
-      unless @config['fullname'] == message[:person]
-        puts "#{Time.now} | #{message[:room].name} | #{message[:person]} | #{message[:message]}"
-        
-        %w(commands speakers messages).each do |type|
-          Plugin.send("registered_#{type}").each do |handler|
-            begin
-              handler.run(message)
-            rescue
-              puts "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
-                $!.backtrace
+      case message[:type]
+      when "KickMessage"
+        if message[:user][:id] == @campfire.me[:id]
+          puts "#{Time.now} | #{message[:room].name} | CampfireBot | got kicked... rejoining..."
+          join_rooms_as_user
+          puts "#{Time.now} | #{message[:room].name} | CampfireBot | rejoined room." 
+          return
+        end
+      when "TextMessage" 
+        # only process non-bot messages
+        unless message[:user][:id] == @campfire.me[:id]
+          puts "#{Time.now} | #{message[:room].name} | #{message[:person]} | #{message[:message]}"
+          %w(commands speakers messages).each do |type|
+            Plugin.send("registered_#{type}").each do |handler|
+              begin
+                handler.run(message)
+              rescue
+                puts "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
+                  $!.backtrace
+              end
             end
           end
         end
-        
+      else
+        puts "#{Time.now} | #{message[:room].name} | CampfireBot | got message of type #{message['type']} -- discarding"
       end
-
-      
     end
-
   end
 end
 
