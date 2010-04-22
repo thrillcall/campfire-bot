@@ -32,7 +32,13 @@ module CampfireBot
 
     def connect
       load_plugins unless !@config['enable_plugins']
-      join_rooms
+      begin
+        join_rooms
+      rescue Errno::ENETUNREACH, SocketError => e
+        abort "We had trouble connecting to the network: #{e.class}: #{e.message}"
+      rescue Exception => e
+        abort "Unhandled exception while joining rooms: #{e.class}: #{e.message}"
+      end  
     end
 
     def run(interval = 5)
