@@ -66,8 +66,24 @@ module CampfireBot
               # EventHanlder.handle_time(optional_arg = Time.now)
 
               # Run time-oriented events
-              Plugin.registered_intervals.each        { |handler| handler.run(CampfireBot::Message.new(:room => room)) }
-              Plugin.registered_times.each_with_index { |handler, index| Plugin.registered_times.delete_at(index) if handler.run }
+              Plugin.registered_intervals.each  do |handler| 
+                begin
+                  handler.run(CampfireBot::Message.new(:room => room))
+                rescue
+                  puts "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
+                    $!.backtrace
+                end
+              end
+
+              Plugin.registered_times.each_with_index  do |handler, index| 
+                begin
+                  Plugin.registered_times.delete_at(index) if handler.run
+                rescue
+                  puts "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
+                    $!.backtrace
+                end
+              end
+
             end
             STDOUT.flush
             sleep interval
