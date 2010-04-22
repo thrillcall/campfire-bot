@@ -99,7 +99,7 @@ module CampfireBot
     end
     
     def join_rooms_as_user
-      @campfire = Tinder::Campfire.new(@config['site'], :ssl => !!@config['use_ssl'], :username => @config['api_key'], :password => @config['password'])
+      @campfire = Tinder::Campfire.new(@config['site'], :ssl => @config['use_ssl'], :username => @config['api_key'], :password => 'x')
 
       
       @config['rooms'].each do |room_name|
