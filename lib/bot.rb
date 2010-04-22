@@ -142,7 +142,8 @@ module CampfireBot
       case message[:type]
       when "KickMessage"
         if message[:user][:id] == @campfire.me[:id]
-          puts "#{Time.now} | #{message[:room].name} | CampfireBot | got kicked... rejoining..."
+          puts "#{Time.now} | #{message[:room].name} | CampfireBot | got kicked... rejoining after 10 seconds"
+          sleep 10
           join_rooms_as_user
           puts "#{Time.now} | #{message[:room].name} | CampfireBot | rejoined room." 
           return
