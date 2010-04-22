@@ -106,13 +106,6 @@ module CampfireBot
       join_rooms_as_user
       puts "#{Time.now} | #{BOT_ENVIRONMENT} | Loader | Ready."
     end
-
-    def join_rooms_as_guest
-      baseurl, guest_token  = @config['guesturl'].split(/.com\//)
-      @campfire             = Tinder::Campfire.new(@config['site'], :guesturl => @config['guesturl'], :ssl => !!@config['ssl'])
-      @rooms[guest_token]   = @campfire.find_room_by_guest_hash(guest_token, @config['nickname'])
-      @rooms[guest_token].join
-    end
     
     def join_rooms_as_user
       @campfire = Tinder::Campfire.new(@config['site'], :ssl => @config['use_ssl'], :username => @config['api_key'], :password => 'x')
