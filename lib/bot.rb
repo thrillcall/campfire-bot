@@ -147,7 +147,7 @@ module CampfireBot
           puts "#{Time.now} | #{message[:room].name} | CampfireBot | rejoined room." 
           return
         end
-      when "TextMessage" 
+      when "TextMessage", "PasteMessage"
         # only process non-bot messages
         unless message[:user][:id] == @campfire.me[:id]
           puts "#{Time.now} | #{message[:room].name} | #{message[:person]} | #{message[:message]}"
