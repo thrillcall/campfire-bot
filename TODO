@@ -48,8 +48,6 @@
 
 - unit tests!
 
-- plugin: svn commit notification (multiple repos)
-
 - help plugin-- extend plugin class to provide help for each registered command
 
 - room.log method, can be called from plugins - store logs in ./log/*.log
@@ -71,3 +69,4 @@ DONE
 
 /opt/local/lib/ruby/1.8/net/http.rb:560:in `initialize': Network is unreachable - connect(2) (Errno::ENETUNREACH)
 
+- plugin: svn commit notification (multiple repos)
