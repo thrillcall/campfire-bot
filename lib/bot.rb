@@ -101,10 +101,10 @@ module CampfireBot
     def join_rooms_as_user
       @campfire = Tinder::Campfire.new(@config['site'], :ssl => @config['use_ssl'], :username => @config['api_key'], :password => 'x')
 
-      
       @config['rooms'].each do |room_name|
         @rooms[room_name] = @campfire.find_room_by_name(room_name)
-        @rooms[room_name].join
+        res = @rooms[room_name].join
+        raise Error if res.code != 200 
       end
     end
 
