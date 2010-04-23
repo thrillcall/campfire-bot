@@ -9,7 +9,6 @@ require "#{BOT_ROOT}/lib/message"
 require "#{BOT_ROOT}/lib/event"
 require "#{BOT_ROOT}/lib/plugin"
 
-# requires http://github.com/joshwand/tinder to fix broken listen support
 gem 'tinder', '>= 1.3.1'; require 'tinder'
 
 module CampfireBot

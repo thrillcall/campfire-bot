@@ -13,7 +13,8 @@ Download the source from "github":http://github.com/timriley/campfire-bot
 h3. Gem Dependencies:
 
 * rubygems
-* bgreenlee-tinder (http://github.com/bgreenlee/tinder)
+* collectiveidea-tinder (http://github.com/collectiveidea/tinder) - until they update the gem with the latest changes
+** if you are experiencing frequent listen timeouts you should monkey-patch tinder/room.rb#listen to set :timeout to something a bit higher
 * hpricot
 * mime-types
 * activesupport 
