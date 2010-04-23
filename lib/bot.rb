@@ -48,7 +48,7 @@ module CampfireBot
         @rooms.each_pair do |room_name, room|
           Thread.new do
             begin
-              room.listen do |raw_msg|
+              room.listen(:timeout => 8) do |raw_msg|
                 handle_message(CampfireBot::Message.new(raw_msg.merge({:room => room})))
               end
             rescue Exception => e 
