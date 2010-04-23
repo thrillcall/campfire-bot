@@ -53,7 +53,7 @@ module CampfireBot
               end
             rescue Exception => e 
               trace = e.backtrace.join("\n")
-              puts "something went wrong! #{e.message}\n #{trace}"
+              abort "something went wrong! #{e.message}\n #{trace}"
             end
           end
         end
