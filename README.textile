@@ -17,7 +17,8 @@ h3. Gem Dependencies:
 ** if you are experiencing frequent listen timeouts you should monkey-patch tinder/room.rb#listen to set :timeout to something a bit higher
 * hpricot
 * mime-types
-* activesupport 
+* activesupport
+* logging
 
 h3. Configuration
 

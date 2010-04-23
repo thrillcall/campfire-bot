@@ -3,6 +3,7 @@ require 'rubygems'
 require 'active_support'
 require 'yaml'
 require 'eventmachine'
+require 'logging'
 
 # Local Libs
 require "#{BOT_ROOT}/lib/message"
@@ -17,7 +18,7 @@ module CampfireBot
     include Singleton
 
     # FIXME - these will be invalid if disconnected. handle this.
-    attr_reader :campfire, :rooms, :config
+    attr_reader :campfire, :rooms, :config, :log
 
     def initialize
       if BOT_ENVIRONMENT.nil?
@@ -27,6 +28,15 @@ module CampfireBot
       @timeouts = 0
       @config   = YAML::load(File.read("#{BOT_ROOT}/config.yml"))[BOT_ENVIRONMENT]
       @rooms    = {}
+      @root_logger = Logging.logger["CampfireBot"]
+      @log = Logging.logger[self]
+      
+      # TODO much of this should be configurable per environment
+      @root_logger.add_appenders Logging.appenders.rolling_file("#{BOT_ROOT}/var/#{BOT_ENVIRONMENT}.log", 
+                            :layout => Logging.layouts.pattern(:pattern => "%d | %-6l | %-12c | %m\n"),
+                            :age => 'daily', 
+                            :keep => 7)
+      @root_logger.level = @config['log_level'] rescue :info
     end
 
     def connect
@@ -75,7 +85,7 @@ module CampfireBot
                 begin
                   handler.run(CampfireBot::Message.new(:room => room))
                 rescue
-                  puts "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
+                  @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
                     $!.backtrace
                 end
               end
@@ -84,7 +94,7 @@ module CampfireBot
                 begin
                   Plugin.registered_times.delete_at(index) if handler.run
                 rescue
-                  puts "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
+                  @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
                     $!.backtrace
                 end
               end
@@ -109,7 +119,7 @@ module CampfireBot
 
     def join_rooms
       join_rooms_as_user
-      puts "#{Time.now} | #{BOT_ENVIRONMENT} | CampfireBot | Joined all rooms."
+      @log.info "Joined all rooms."
     end
     
     def join_rooms_as_user
@@ -129,7 +139,7 @@ module CampfireBot
 
       # And instantiate them
       Plugin.registered_plugins.each_pair do |name, klass|
-        puts "#{Time.now} | #{BOT_ENVIRONMENT} | CampfireBot | loading plugin: #{name}"
+        @log.info "loading plugin: #{name}"
         STDOUT.flush
         Plugin.registered_plugins[name] = klass.new
       end
@@ -141,10 +151,10 @@ module CampfireBot
       case message[:type]
       when "KickMessage"
         if message[:user][:id] == @campfire.me[:id]
-          puts "#{Time.now} | #{message[:room].name} | CampfireBot | got kicked... rejoining after 10 seconds"
+          @log.info "got kicked... rejoining after 10 seconds"
           sleep 10
           join_rooms_as_user
-          puts "#{Time.now} | #{message[:room].name} | CampfireBot | rejoined room." 
+          @log.info "rejoined room." 
           return
         end
       when "TimestampMessage", "AdvertisementMessage"
@@ -152,20 +162,20 @@ module CampfireBot
       when "TextMessage", "PasteMessage"
         # only process non-bot messages
         unless message[:user][:id] == @campfire.me[:id]
-          puts "#{Time.now} | #{message[:room].name} | #{message[:person]} | #{message[:message]}"
+          @log.info "#{message[:person]} | #{message[:message]}"
           %w(commands speakers messages).each do |type|
             Plugin.send("registered_#{type}").each do |handler|
               begin
                 handler.run(message)
               rescue
-                puts "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
+                @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
                   $!.backtrace
               end
             end
           end
         end
       else
-        puts "#{Time.now} | #{message[:room].name} | CampfireBot | got message of type #{message['type']} -- discarding"
+        @log.debug "got message of type #{message['type']} -- discarding"
       end
     end
   end
