@@ -4,6 +4,7 @@ require 'active_support'
 require 'yaml'
 require 'eventmachine'
 require 'logging'
+require 'fileutils'
 
 # Local Libs
 require "#{BOT_ROOT}/lib/message"
