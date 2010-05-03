@@ -37,16 +37,16 @@ module CampfireBot
       def match?(msg)
         (
           msg[:message][0..0] == '!' ||
-          msg[:message]       =~ Regexp.new("^#{bot.config['nickname']},", Regexp::IGNORECASE)
+          msg[:message]       =~ Regexp.new("^#{bot.config['nickname']}(,|:)", Regexp::IGNORECASE)
         ) &&
-        msg[:message].gsub(/^!/, '').gsub(Regexp.new("^#{bot.config['nickname']}(,|:)?\\s*", Regexp::IGNORECASE), '').split(' ')[0].to_s.downcase == @matcher.downcase
+        msg[:message].gsub(/^\!/, '').gsub(Regexp.new("^#{bot.config['nickname']}(,|:)?\\s*", Regexp::IGNORECASE), '').split(' ')[0].to_s.downcase == @matcher.downcase
         # FIXME - the above should be just done with one regexp to pull out the first non-! non-<bot name> word.
       end
 
       protected
 
       def filter_message(msg)
-        msg[:message] = msg[:message].gsub(Regexp.new("^(!|#{bot.config['nickname']}[,:])\\s*#{@matcher}\\s+", Regexp::IGNORECASE), '')
+        msg[:message] = msg[:message].gsub(Regexp.new("^(!|#{bot.config['nickname']}[,:]\\s+)#{@matcher.downcase}\\s?", Regexp::IGNORECASE), '')
         msg
       end
     end
