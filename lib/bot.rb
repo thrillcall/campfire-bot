@@ -45,8 +45,10 @@ module CampfireBot
       begin
         join_rooms
       rescue Errno::ENETUNREACH, SocketError => e
+        @log.fatal "We had trouble connecting to the network: #{e.class}: #{e.message}"
         abort "We had trouble connecting to the network: #{e.class}: #{e.message}"
       rescue Exception => e
+        @log.fatal "Unhandled exception while joining rooms: #{e.class}: #{e.message}"
         abort "Unhandled exception while joining rooms: #{e.class}: #{e.message}"
       end  
     end
