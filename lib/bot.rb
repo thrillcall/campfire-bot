@@ -88,8 +88,7 @@ module CampfireBot
                 begin
                   handler.run(CampfireBot::Message.new(:room => room))
                 rescue
-                  @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
-                    $!.backtrace
+                  @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}, #{$!.backtrace}"
                 end
               end
 
@@ -97,8 +96,7 @@ module CampfireBot
                 begin
                   Plugin.registered_times.delete_at(index) if handler.run
                 rescue
-                  @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
-                    $!.backtrace
+                  @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}, #{$!.backtrace}"
                 end
               end
 
@@ -170,9 +168,8 @@ module CampfireBot
             Plugin.send("registered_#{type}").each do |handler|
               begin
                 handler.run(message)
-              rescue
-                @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}",
-                  $!.backtrace
+              rescue Exception => e
+                @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}, #{$!.backtrace}"
               end
             end
           end
