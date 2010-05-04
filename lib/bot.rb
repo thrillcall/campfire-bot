@@ -48,8 +48,8 @@ module CampfireBot
         @log.fatal "We had trouble connecting to the network: #{e.class}: #{e.message}"
         abort "We had trouble connecting to the network: #{e.class}: #{e.message}"
       rescue Exception => e
-        @log.fatal "Unhandled exception while joining rooms: #{e.class}: #{e.message}"
-        abort "Unhandled exception while joining rooms: #{e.class}: #{e.message}"
+        @log.fatal "Unhandled exception while joining rooms: #{e.class}: #{e.message} \n #{$!.backtrace.join("\n")}"
+        abort "Unhandled exception while joining rooms: #{e.class}: #{e.message} \n #{$!.backtrace.join("\n")}"
       end  
     end
 
@@ -88,7 +88,7 @@ module CampfireBot
                 begin
                   handler.run(CampfireBot::Message.new(:room => room))
                 rescue
-                  @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}, #{$!.backtrace}"
+                  @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message} \n #{$!.backtrace.join("\n")}"
                 end
               end
 
@@ -96,7 +96,7 @@ module CampfireBot
                 begin
                   Plugin.registered_times.delete_at(index) if handler.run
                 rescue
-                  @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}, #{$!.backtrace}"
+                  @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}, \n #{$!.backtrace.join("\n")}"
                 end
               end
 
@@ -169,7 +169,7 @@ module CampfireBot
               begin
                 handler.run(message)
               rescue Exception => e
-                @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message}, #{$!.backtrace}"
+                @log.error "error running #{handler.inspect}: #{$!.class}: #{$!.message} \n #{$!.backtrace.join("\n")}"
               end
             end
           end
