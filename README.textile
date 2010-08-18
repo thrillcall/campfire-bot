@@ -1,6 +1,6 @@
 h1. Campfire Bot
 
-This is an under-heavy-development bot for the Campfire web-based chat system.
+This is a bot for the Campfire web-based chat system.
 
 It aims to be multi-purpose and extensible.
 
@@ -29,13 +29,17 @@ To run the bot, run @script/bot@ with the environment name as the argument:
 
   script/bot development
 
-h2. Authors
+
+h2. Original Author
 
 Tim Riley - "github":http://github.com/timriley | "www":http://openmonkey.com/ | "email":mailto:tim@openmonkey.com
 
-h3. Contributors
+h2. Maintainer
 
 * Josh Wand - "github":http://github.com/joshwand
+
+h3. Contributors
+
 * Marcel M. Cary - "github":http://github.com/mcary
 * Hugh Evans - "github":http://github.com/artpop
 * Sean O'Dowd - "github":http://github.com/seanodowd
