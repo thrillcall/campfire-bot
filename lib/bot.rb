@@ -11,7 +11,7 @@ require "#{BOT_ROOT}/lib/message"
 require "#{BOT_ROOT}/lib/event"
 require "#{BOT_ROOT}/lib/plugin"
 
-gem 'tinder', '>= 1.3.1'; require 'tinder'
+gem 'tinder', '>= 1.4.0'; require 'tinder'
 
 module CampfireBot
   class Bot
