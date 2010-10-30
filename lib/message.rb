@@ -22,5 +22,9 @@ module CampfireBot
     def upload(file_path)
       self[:room].upload(file_path)
     end
+    
+    def play(str)
+      self[:room].play(str)
+    end
   end
 end
