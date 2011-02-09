@@ -1,5 +1,5 @@
 module CampfireBot
-  class Message < HashWithIndifferentAccess
+  class Message < ActiveSupport::HashWithIndifferentAccess
     def initialize(attributes)
       self.merge!(attributes)
       self[:message] = self['body'] if !!self['body']
