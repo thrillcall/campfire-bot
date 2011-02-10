@@ -1,6 +1,7 @@
-source :rubygems
+source :gemcutter
 
-gem 'tinder', "> 1.4.0"
+gem 'twitter-stream'
+gem 'tinder', ">= 1.4.3"
 gem 'hpricot'
 gem 'mime-types'
 gem 'activesupport'
