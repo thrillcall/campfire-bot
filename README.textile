@@ -1,8 +1,8 @@
 h1. Campfire Bot
 
-This is a bot for the Campfire web-based chat system.
+This is a bot for 37 Signals' Campfire chat service.
 
-It aims to be multi-purpose and extensible.
+It has plugin support so you can make your bot do whatever you want. 
 
 h2. Installation
 
@@ -10,14 +10,10 @@ h3. Download
 
 Download the source from "github":http://github.com/timriley/campfire-bot
  
-h3. Gem Dependencies:
+h3. Gem Dependencies
 
-* rubygems
-* tinder > 1.4.0
-* hpricot
-* mime-types
-* activesupport
-* logging
+  gem install bundler
+  bundle install
 
 h3. Configuration
 
@@ -29,6 +25,16 @@ To run the bot, run @script/bot@ with the environment name as the argument:
 
   script/bot development
 
+
+h2. Known issues
+
+h3. [BUG] Bus Error
+
+This is really an issue with EventMachine. If you are using this on a machine that has MacPorts, you'll need to make sure that you build both ruby and eventmachine linked against the openssl in /opt/local, not /usr/local.
+
+h3. warning: peer certificate won't be verified in this SSL session
+
+A bug in net/http. Noisy, but harmless.
 
 h2. Original Author
 
