@@ -8,7 +8,7 @@ h2. Installation
 
 h3. Download
 
-Download the source from "github":http://github.com/timriley/campfire-bot
+Download the source from "github":http://github.com/joshwand/campfire-bot
  
 h3. Gem Dependencies
 
