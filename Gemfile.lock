@@ -3,18 +3,21 @@ GEM
   specs:
     activesupport (3.0.3)
     addressable (2.2.2)
+    awesome_print (0.3.2)
     eventmachine (0.12.10)
     faraday (0.5.3)
       addressable (~> 2.2.2)
       multipart-post (~> 1.0.1)
       rack (>= 1.1.0, < 2)
     hpricot (0.8.3)
+    htmlentities (4.3.0)
     i18n (0.5.0)
     little-plugger (1.1.2)
     logging (1.4.3)
       little-plugger (>= 1.1.2)
     mime-types (1.16)
     multipart-post (1.0.1)
+    nokogiri (1.4.4)
     rack (1.2.1)
     roauth (0.0.3)
     tinder (1.4.3)
@@ -27,16 +30,21 @@ GEM
     twitter-stream (0.1.10)
       eventmachine (>= 0.12.8)
       roauth (>= 0.0.2)
+    yahoo-weather (1.2.0)
+      nokogiri (>= 1.4.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   activesupport
+  awesome_print
   eventmachine
   hpricot
+  htmlentities
   i18n
   logging
   mime-types
   tinder (>= 1.4.3)
   twitter-stream
+  yahoo-weather
