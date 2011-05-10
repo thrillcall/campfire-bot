@@ -1,0 +1,27 @@
+# campfirebot - A thrillcall campfire bot.
+#
+# A Campfire Bot for fun and profit.
+
+# This is an upstart init script that will keep the bot running forever
+# COPY THIS FILE TO /etc/init/
+# Start with 'sudo service campfirebot start'
+
+description	"Campfire Bot Server"
+
+# Start when system enters runlevel 2 (multi-user mode).
+start on runlevel 2
+
+# Restart the process if it dies with a signal
+# or exit code not given by the 'normal exit' stanza.
+respawn
+
+# Give up if restart occurs 10 times in 180 seconds.
+respawn limit 10 180 
+
+umask 022
+oom never
+
+chdir /thrillcall/campfire-bot
+
+exec sudo -u thrillcall -i 'bash -l -c "/thrillcall/campfire-bot/script/bot production"'
+
