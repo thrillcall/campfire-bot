@@ -30,6 +30,7 @@ GEM
     twitter-stream (0.1.10)
       eventmachine (>= 0.12.8)
       roauth (>= 0.0.2)
+    tzinfo (0.3.27)
     yahoo-weather (1.2.0)
       nokogiri (>= 1.4.1)
 
@@ -47,4 +48,5 @@ DEPENDENCIES
   mime-types
   tinder (>= 1.4.3)
   twitter-stream
+  tzinfo
   yahoo-weather

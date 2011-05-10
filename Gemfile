@@ -11,3 +11,5 @@ gem 'i18n'
 gem 'awesome_print'
 gem 'htmlentities'
 gem 'yahoo-weather'
+gem 'tzinfo'
+
