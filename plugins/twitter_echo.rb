@@ -18,11 +18,17 @@ class TwitterEcho < CampfireBot::Plugin
   end
   
   def echo_tweets(msg = nil)
-    recent_tweets.reverse.each do |tweet|
-      msg.speak("#{coder.decode(tweet.from)}: #{coder.decode(tweet.text)} #{tweet.link}") unless (tweet.text =~ /^@/ && @hide_replies)
+    begin
+      recent_tweets.reverse.each do |tweet|
+        msg.speak("#{coder.decode(tweet.from)}: #{coder.decode(tweet.text)} #{tweet.link}") unless (tweet.text =~ /^@/ && @hide_replies)
+      end
+      @latest = latest_tweet.date   # next time, only print tweets newer than this
+      @doc    = nil                 # reset the feed so that next time we can actually any new tweets
+    rescue RuntimeError => e
+      # soething went wrong
+    rescue Exception => e
+      # something else went wrong
     end
-    @latest = latest_tweet.date   # next time, only print tweets newer than this
-    @doc    = nil                 # reset the feed so that next time we can actually any new tweets
   end
   
   protected
