@@ -4,7 +4,7 @@ class Standup < CampfireBot::Plugin
   on_command 'shuffle', :shuffle
   
   def shuffle(msg)
-    out = ["Dan","Eddy","Glenn","Prasanth"].shuffle
+    out = ["Dan","Eddy","Glenn","Prasanth", "Mike"].shuffle
     tz = TZInfo::Timezone.get('America/Los_Angeles')
     local = tz.utc_to_local(Time.now.utc)
 
